@@ -15,14 +15,14 @@ namespace UnityD3
             string[] lines = dataset.text.Split("\n");
             for (int i = 1; i < lines.Length; ++i)
             {
-                if (lines[i].Length == 0) continue;
+                if ((lines[i].Length == 0) || string.IsNullOrWhiteSpace(lines[i])) continue;
                 try
                 {
                     result.Add(record_parser(lines[i]));
                 }
                 catch (FormatException)
                 {
-                    Debug.LogWarning($"ignored entry at line: {i} due to FormatException");
+                    Debug.LogWarning($"ignored entry: {lines[i]} at line: {i} due to FormatException");
                 }
             }
             return result;
@@ -37,7 +37,7 @@ namespace UnityD3
                 reader.ReadLine();  // ignore header line
                 while ((line = reader.ReadLine()) != null)
                 {
-                    if (line.Length == 0) continue;
+                    if ((line.Length == 0) || string.IsNullOrWhiteSpace(line)) continue;
                     try
                     {
                         result.Add(record_parser(line));
