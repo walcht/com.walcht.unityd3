@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AxisMaterial: {fileID: 2100000, guid: 558f7e360ee86f344a0cc0fbbbc23e08, type: 2}
   TickMaterial: {fileID: 2100000, guid: 507e7d0d8e4a4fd4e82bc757f09a994e, type: 2}
-  RectMaterial: {fileID: 2100000, guid: 7d1d02f3f1611604791458a95db9641b, type: 2}
+  RectMaterial: {fileID: 2100000, guid: a8a5c9fd36ec6704f96ea214128736f0, type: 2}
 --- !u!4 &336885151
 Transform:
   m_ObjectHideFlags: 0
