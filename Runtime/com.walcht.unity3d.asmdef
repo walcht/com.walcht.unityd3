@@ -1,0 +1,8 @@
+{
+    "name": "walcht.unityd3",
+    "references": ["Unity.TextMeshPro"],
+    "optionalUnityReferences": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

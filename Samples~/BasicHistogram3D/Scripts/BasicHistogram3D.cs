@@ -78,8 +78,8 @@ public class BasicHistogram3D : MonoBehaviour
             .Datum(data)
             .DomainX(min_val_x, max_val_x)
             .DomainY(min_val_y, max_val_y)
-            .NbrBinsX(10)
-            .NbrBinsY(10)
+            .NbrBinsX(6)
+            .NbrBinsY(6)
             .X(d => d.v0)
             .Y(d => d.v1)
             .Generate(out Bin2D[] bins);

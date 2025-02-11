@@ -117,7 +117,6 @@ public class BasicLineChart3D : MonoBehaviour
                 y_accessor: d => m_y_scale.F(d.y),
                 z_accessor: d => m_z_scale.F(d.z))
             .SetMaterial(LineMaterial)
-            .SetColor(new Color(105 / 255.0f, 179 / 255.0f, 162 / 255.0f))
             .SetStrokeWidth(0.05f)
             .Attach(gameObject);
     }

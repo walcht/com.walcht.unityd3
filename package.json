@@ -5,10 +5,11 @@
   "unity": "6000.0",
   "description": "A solution for authoring visualizations in d3.js-like style in Unity.",
   "author": {
-    "name": "Walid Chtioui",
+    "name": "walcht",
     "email": "walid.chtioui@ensi-uma.tn",
     "url": "https://github.com/walcht"
   },
+  "changelogUrl": "https://raw.githubusercontent.com/walcht/com.walcht.unityd3/refs/heads/master/CHANGELOG.md",
   "keywords": [
     "d3.js",
     "visualization",
@@ -19,27 +20,27 @@
   ],
   "samples": [
     {
-      "displayName": "Basic 2D Histogram",
+      "displayName": "BasicHistogram2D",
       "description": "Contains a sample to be attached to a GameObject to render a basic 2D histogram",
       "path": "Samples~/BasicHistogram2D"
     },
     {
-      "displayName": "Basic 3D Histogram",
+      "displayName": "BasicHistogram3D",
       "description": "Contains a sample to be attached to a GameObject to render a basic 3D histogram",
       "path": "Samples~/BasicHistogram3D"
     },
     {
-      "displayName": "Basic 2D Line Chart",
+      "displayName": "BasicLineChart2D",
       "description": "Contains a sample to be attached to a GameObject to render a basic 2D line chart",
       "path": "Samples~/BasicLineChart2D"
     },
     {
-      "displayName": "Basic 3D Line Chart",
+      "displayName": "BasicLineChart3D",
       "description": "Contains a sample to be attached to a GameObject to render a basic 3D line chart",
       "path": "Samples~/BasicLineChart3D"
     },
     {
-      "displayName": "Basic 2D Scatter Plot",
+      "displayName": "BasicScatterPlot2D",
       "description": "Contains a sample to be attached to a GameObject to render a basic 2D scatter plot",
       "path": "Samples~/BasicScatterPlot2D"
     }
