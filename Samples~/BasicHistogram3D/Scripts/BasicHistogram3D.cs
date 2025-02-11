@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityD3;
 using System.Collections.Generic;
 
-public class BarChart3D : MonoBehaviour
+public class BasicHistogram3D : MonoBehaviour
 {
 
     ///////////////////////////
@@ -55,7 +55,7 @@ public class BarChart3D : MonoBehaviour
         m_depth = 6;
 
         // get and parse the data
-        List<Record> data = Importers.FromResourcesCSV<Record>("Datasets/dataset_02",
+        List<Record> data = Importers.FromResourcesCSV<Record>("dataset_02",
             l =>
             {
                 string[] _split = l.Split();

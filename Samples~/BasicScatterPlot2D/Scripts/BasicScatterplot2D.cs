@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityD3;
 
-public class Scatterplot2D : MonoBehaviour
+public class BasicScatterPlot2D : MonoBehaviour
 {
     private struct Record
     {
@@ -50,7 +50,7 @@ public class Scatterplot2D : MonoBehaviour
         m_height = 6;
 
         // get and parse the data
-        List<Record> data = Importers.FromResourcesCSV<Record>("Datasets/dataset_04",
+        List<Record> data = Importers.FromResourcesCSV<Record>("dataset_04",
             l =>
             {
                 string[] _split = l.Split(",");

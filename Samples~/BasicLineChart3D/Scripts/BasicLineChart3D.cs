@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityD3;
 using System.Collections.Generic;
 
-public class LineChart3D : MonoBehaviour
+public class BasicLineChart3D : MonoBehaviour
 {
 
     ///////////////////////////
@@ -56,7 +56,7 @@ public class LineChart3D : MonoBehaviour
         m_depth = 6;
 
         // get and parse the data
-        List<Record> data = Importers.FromResourcesCSV<Record>("Datasets/dataset_03",
+        List<Record> data = Importers.FromResourcesCSV<Record>("dataset_03",
             l =>
             {
                 string[] _split = l.Split(",");

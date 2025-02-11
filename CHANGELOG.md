@@ -1,3 +1,14 @@
+## [0.0.2] - 2025-02-11
+
+### Added
+
+- Datasets for the provided samples.
+
+### Changed
+
+- Structure of the samples by adhering to Unity's best practices for sharing
+  packages.
+
 ## [0.0.1] - 2025-02-11
 
 ### Added

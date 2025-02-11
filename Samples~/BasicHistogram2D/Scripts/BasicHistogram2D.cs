@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityD3;
 using System.Collections.Generic;
 
-public class BarChart2D : MonoBehaviour
+public class BasicHistogram2D : MonoBehaviour
 {
     private struct Record
     {
@@ -49,9 +49,7 @@ public class BarChart2D : MonoBehaviour
         m_height = 6;
 
         // get and parse the data
-        List<Record> data = Importers.FromResourcesCSV<Record>("Datasets/dataset_01",
-            l => new Record(float.Parse(l))
-        );
+        List<Record> data = Importers.FromResourcesCSV<Record>("dataset_01", l => new Record(float.Parse(l)));
 
         if (data.Count == 0)
         {
