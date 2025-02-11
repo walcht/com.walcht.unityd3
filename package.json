@@ -1,0 +1,20 @@
+{
+  "name": "com.walcht.unityd3",
+  "displayName": "UnityD3",
+  "version": "0.0.1",
+  "unity": "6000.0",
+  "description": "A solution for authoring visualizations in d3.js-like style in Unity.",
+  "author": {
+    "name": "Walid Chtioui",
+    "email": "walid.chtioui@ensi-uma.tn",
+    "url": "https://www.walcht.com"
+  },
+  "keywords": [
+    "d3.js",
+    "visualization",
+    "barchart",
+    "scatterplot",
+    "linechart",
+    "histogram"
+  ]
+}
