@@ -166,6 +166,12 @@ MonoBehaviour:
   AxisMaterial: {fileID: 2100000, guid: 46f5a5aae1688d44da7574cc3509bef3, type: 2}
   TickMaterial: {fileID: 2100000, guid: 5b86daae76593ad46ac16240503d265c, type: 2}
   LineMaterial: {fileID: 2100000, guid: 7d1d02f3f1611604791458a95db9641b, type: 2}
+  m_width: 9
+  m_height: 6
+  m_x_axis_tick_count: 5
+  m_y_axis_tick_count: 7
+  m_y_min_domain: 0
+  m_y_max_domain: 0
 --- !u!1 &1696487784
 GameObject:
   m_ObjectHideFlags: 0
@@ -244,7 +250,7 @@ Transform:
   m_GameObject: {fileID: 1696487784}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3, y: 3, z: -6}
+  m_LocalPosition: {x: 4, y: 3, z: -6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
