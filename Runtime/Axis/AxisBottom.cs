@@ -66,7 +66,7 @@ namespace UnityD3
                     Vector3.zero,
                     new(0.0f, -m_tick_size, 0.0f)
                 });
-                tick_line.gameObject.transform.localPosition = new Vector3(0.0f, -m_axis_stroke_width / 2, 0.0f);
+                tick_line.gameObject.transform.localPosition = new Vector3(0.0f, m_axis_stroke_width / 2, 0.0f);
                 tick_line.startWidth = (tick_line.endWidth = m_tick_stroke_width);
                 m_tick_stroke_width = tick_line.endWidth;
                 m_tick_lines[i] = tick_line;
@@ -131,7 +131,7 @@ namespace UnityD3
             m_axis_stroke_width = m_axis_line.endWidth;
             // whenever the axis' stroke width is modified, the ticks have to be repositioned accordingly
             foreach (LineRenderer lr in m_tick_lines)
-                lr.gameObject.transform.localPosition = new Vector3(0.0f, -m_axis_stroke_width / 2, 0.0f);
+                lr.gameObject.transform.localPosition = new Vector3(0.0f, m_axis_stroke_width / 2, 0.0f);
             return this;
         }
 
