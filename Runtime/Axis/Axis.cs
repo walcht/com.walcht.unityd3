@@ -16,6 +16,7 @@ namespace UnityD3
 
         protected float m_tick_size = 0.125f;
         protected float m_tick_fontsize = 2;
+        protected Color m_tick_text_color = Color.black;
 
         protected float m_axis_stroke_width = 0.0175f;
         protected float m_tick_stroke_width = 0.0175f;
@@ -26,12 +27,28 @@ namespace UnityD3
         protected TextMeshPro[] m_tick_texts = new TextMeshPro[0];
         protected Material m_tick_mat;
 
+        protected bool m_dirty = true;
+
         /// <summary>
-        ///     Number of ticks to generate for this axis.
+        ///     Number of ticks to generate for this axis. If number of ticks provided hasn't changed this method simply
+        ///     returns and does nothing.
         /// </summary>
         /// <param name="count">To disable ticks, set this to a value stricly less than 2</param>
         /// <returns>the axis on which this method was called</returns>
-        public abstract Axis<InputType> SetTickCount(int count);
+        public Axis<InputType> SetTickCount(int count)
+        {
+            int _count = m_scale.Ticks(count).Length;
+            if (m_tick_count == _count) return this;
+            m_dirty = true;
+            m_tick_count = _count;
+            return this;
+        }
+
+        /// <summary>
+        ///     Gets the number of ticks generated for this axis.
+        /// </summary>
+        /// <returns>number of ticks</returns>
+        public int GetTickCount() => m_tick_count;
 
         /// <summary>
         ///     Sets the text font size for all the ticks associated with this axis.
@@ -187,6 +204,7 @@ namespace UnityD3
         public Axis<InputType> SetTickTextColor(Color color)
         {
             foreach (TextMeshPro t in m_tick_texts) t.color = color;
+            if (m_tick_texts.Length > 0) m_tick_text_color = m_tick_texts[0].color;
             return this;
         }
 
@@ -202,18 +220,100 @@ namespace UnityD3
         /// <returns>axis' tick line renderes shared Material</returns>
         public Material GetTickMaterial() => m_tick_mat;
 
-        protected abstract void ConstructMainLine();
+        /// <summary>
+        ///     Tries to regenerate the axis if dirty flag is set. Should be called initially or inside a GameObject's
+        ///     Update().
+        /// </summary>
+        /// <returns>the axis on which this method was called</returns>
+        public abstract Axis<InputType> Update();
 
-        protected void OnScaleDomainChange(InputType x0, InputType x1)
+        protected void OnScaleDomainChange(InputType x0, InputType x1) => m_dirty = true;
+
+        protected void OnScaleRangeChange(float y0, float y1) => m_dirty = true;
+
+        protected void ConstructMainLine(Vector3 axis /* e.g., x => (1.0f, 0.0f, 0.0f) */)
         {
-            ConstructMainLine();
-            SetTickCount(m_tick_count);
+            m_axis_line.useWorldSpace = false;
+            m_axis_line.positionCount = 2;
+            Vector3[] positions = new Vector3[2];
+            m_scale.Domain(out InputType x0, out InputType x1);
+            float _x0 = m_scale.F(x0);
+            float _x1 = m_scale.F(x1);
+            positions[0] = Vector3.Scale(new(_x0, _x0, _x0), axis);
+            positions[1] = Vector3.Scale(new(_x1, _x1, _x1), axis);
+            m_axis_line.SetPositions(positions);
+            m_axis_line.startWidth = (m_axis_line.endWidth = m_axis_stroke_width);
+            m_axis_stroke_width = m_axis_line.endWidth;
         }
 
-        protected void OnScaleRangeChange(float y0, float y1)
+        protected void ConstructTickContainers(Vector3 axis /* e.g., x => (1.0f, 0.0f, 0.0f) */)
         {
-            ConstructMainLine();
-            SetTickCount(m_tick_count);
+            // clear/destroy previous ticks
+            foreach (GameObject go in m_tick_containers) GameObject.Destroy(go);
+
+            // get tick positions
+            InputType[] ticks = m_scale.Ticks(m_tick_count);
+
+            // construct tick containers GameObjects
+            m_tick_containers = new GameObject[m_tick_count];
+            for (int i = 0; i < m_tick_count; ++i)
+            {
+                float val = m_scale.F(ticks[i]);
+                GameObject tick_container = new($"tick_{i}");
+                tick_container.transform.parent = m_axis_container.transform;
+                tick_container.transform.localPosition = Vector3.Scale(new(val, val, val), axis);
+                m_tick_containers[i] = tick_container;
+            }
+        }
+
+        protected void ConstructTickLines(Vector3 axis /* e.g., x => (1.0f, 0.0f, 0.0f) */)
+        {
+            // construct tick lines
+            m_tick_lines = new LineRenderer[m_tick_count];
+            for (int i = 0; i < m_tick_count; ++i)
+            {
+                float val = m_axis_stroke_width / 2;
+                GameObject go = new("tick_line", new Type[] { typeof(LineRenderer) });
+                go.transform.SetParent(m_tick_containers[i].transform, worldPositionStays: false);
+                LineRenderer tick_line = go.GetComponent<LineRenderer>();
+                tick_line.useWorldSpace = false;
+                tick_line.positionCount = 2;
+                tick_line.SetPositions(new Vector3[] {
+                    Vector3.Scale(new Vector3(val, val, val), axis),
+                    Vector3.Scale(new(-m_tick_size, -m_tick_size, -m_tick_size), axis)
+                });
+                tick_line.startWidth = (tick_line.endWidth = m_tick_stroke_width);
+                m_tick_stroke_width = tick_line.endWidth;
+                tick_line.sharedMaterial = m_tick_mat;
+                m_tick_lines[i] = tick_line;
+            }
+        }
+
+        protected void ConstructTickTexts(Vector3 axis /* e.g., x => (1.0f, 0.0f, 0.0f) */)
+        {
+            // construct tick texts
+            m_tick_texts = new TextMeshPro[m_tick_count];
+            InputType[] ticks = m_scale.Ticks(m_tick_count);
+            for (int i = 0; i < m_tick_count; ++i)
+            {
+                GameObject go = new("tick_text", new Type[] { typeof(TMPro.TextMeshPro) });
+                go.transform.SetParent(m_tick_containers[i].transform, worldPositionStays: false);
+                TMPro.TextMeshPro tick_text = go.GetComponent<TextMeshPro>();
+                tick_text.isTextObjectScaleStatic = true;
+                tick_text.autoSizeTextContainer = true;
+                tick_text.text = m_scale.TickText(ticks[i]);
+                tick_text.fontSize = m_tick_fontsize;
+                tick_text.color = m_tick_text_color;
+                tick_text.ForceMeshUpdate();
+                float val = -(m_tick_size + (axis.y * tick_text.renderedHeight / 2)
+                    + (axis.x * tick_text.renderedWidth / 2));
+                tick_text.transform.localPosition = Vector3.Scale(new Vector3(val, val, val), axis);
+                m_tick_texts[i] = tick_text;
+            }
+
+            // re-assign because the actual font size that was set might be different
+            // from what it was initially set to
+            if (m_tick_texts.Length > 0) m_tick_fontsize = m_tick_texts[0].fontSize;
         }
 
     }

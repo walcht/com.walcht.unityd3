@@ -29,10 +29,10 @@ namespace UnityD3
             m_shape = shape;
             if (filter == null) m_filter = (d) => true;
             else m_filter = filter;
-            Generate();
+            Update();
         }
 
-        public override IGenerator2D<T, D> Generate()
+        public override IGenerator2D<T, D> Update()
         {
             foreach (GameObject go in m_primitives) GameObject.Destroy(go);
             m_primitives.Clear();

@@ -19,29 +19,32 @@ namespace UnityD3
             m_data = data;
             m_x_accessor = x_accessor;
             m_y_accessor = y_accessor;
-            if (filter == null) m_filter = (d) => true;
+            if (filter == null) m_filter = (d) => false;
             else m_filter = filter;
-            Generate();
 
             // default properties
             SetStrokeWidth(m_stroke_width);
         }
 
-        public override IGenerator2D<T, D> Generate()
+        public override IGenerator2D<T, D> Update()
         {
-            List<Vector3> positions = new();
-            // construct the line
-            foreach (D d in m_data)
+            if (m_dirty)
             {
-                if (!m_filter(d)) continue;
-                positions.Add(new Vector3(
-                    m_x_accessor(d),
-                    m_y_accessor(d),
-                    0.0f
-                ));
+                m_dirty = false;
+                List<Vector3> positions = new();
+                // construct the line
+                foreach (D d in m_data)
+                {
+                    if (m_filter(d)) continue;
+                    positions.Add(new Vector3(
+                        m_x_accessor(d),
+                        m_y_accessor(d),
+                        0.0f
+                    ));
+                }
+                m_line_renderer.positionCount = positions.Count;
+                m_line_renderer.SetPositions(positions.ToArray());
             }
-            m_line_renderer.positionCount = positions.Count;
-            m_line_renderer.SetPositions(positions.ToArray());
             return this;
         }
 
